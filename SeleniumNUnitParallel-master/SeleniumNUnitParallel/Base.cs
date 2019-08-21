@@ -8,9 +8,8 @@ namespace SeleniumNUnitParallel
     {
         //IWebdriver Instance
         public IWebDriver Driver { get; set; }
-
-
+        
         //AppiumDriverInstance
-        AppiumDriver<AndroidElement> _driver;
+        public AppiumDriver<AndroidElement> _driver { get; set; }
     }
 }

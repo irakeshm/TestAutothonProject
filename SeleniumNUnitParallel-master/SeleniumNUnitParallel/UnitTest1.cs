@@ -77,4 +77,33 @@ namespace SeleniumNUnitParallel
             } 
         }
     }
+
+
+
+    [TestFixture]
+    [Parallelizable]
+    public class MobileTest : Hooks
+    {
+        public MobileTest() : base(BrowserType.Mobile)
+        {
+        }
+
+        [Test]
+        public void ChromeGoogleTest()
+        {
+            try
+            {
+                _driver.Navigate().GoToUrl("https://www.google.co.in");
+                _driver.FindElement(By.Name("q")).SendKeys("Selenium");
+                _driver.FindElement(By.Name("btnK")).Click();
+                Assert.That(Driver.PageSource.Contains("Selenium"), Is.EqualTo(true),
+                                "Text Selenium was not found");
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+    }
 }
