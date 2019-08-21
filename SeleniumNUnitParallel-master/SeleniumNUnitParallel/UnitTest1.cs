@@ -158,7 +158,9 @@ namespace SeleniumNUnitParallel
             {
                 _driver.Navigate().GoToUrl("https://www.youtube.com");
                  System.Threading.Thread.Sleep(3000);
-                _driver.FindElementByAccessibilityId("Search").Click();
+                IWebElement el = _driver.FindElement(By.XPath("//*[@id='search-icon-legacy']/preceding-sibling::*"));
+                el.Click();
+            _driver.FindElementByAccessibilityId("Search").Click();
                 //ele.Click();
                 //_driver.FindElement(By.Name("btnK")).Click();
                 //Assert.That(Driver.PageSource.Contains("Selenium"), Is.EqualTo(true),
