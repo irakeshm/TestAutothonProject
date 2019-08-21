@@ -2,11 +2,7 @@
 using OpenQA.Selenium;
 using System;
 
-/// <summary>
-/// Author: Sahil Mutreja
-/// Date: March 24, 2018
-/// Desc: Parallel test execution using NUnit framework and Parallelizable attribute
-/// </summary>
+
 namespace SeleniumNUnitParallel
 {
     [TestFixture]
