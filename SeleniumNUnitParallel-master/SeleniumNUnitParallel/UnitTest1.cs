@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
@@ -151,15 +152,17 @@ namespace SeleniumNUnitParallel
         }
 
         [Test]
-        public void ChromeGoogleTest()
+        public void ChromeMobileTest()
         {
             try
             {
-                _driver.Navigate().GoToUrl("https://www.google.co.in");
-                _driver.FindElement(By.Name("q")).SendKeys("Selenium");
-                _driver.FindElement(By.Name("btnK")).Click();
-                Assert.That(Driver.PageSource.Contains("Selenium"), Is.EqualTo(true),
-                                "Text Selenium was not found");
+                _driver.Navigate().GoToUrl("https://www.youtube.com");
+                 System.Threading.Thread.Sleep(3000);
+                _driver.FindElementByAccessibilityId("Search").Click();
+                //ele.Click();
+                //_driver.FindElement(By.Name("btnK")).Click();
+                //Assert.That(Driver.PageSource.Contains("Selenium"), Is.EqualTo(true),
+                //  "Text Selenium was not found");
 
             }
             catch (Exception e)
