@@ -125,6 +125,7 @@
     <Compile Include="Base.cs" />
     <Compile Include="BrowserSearch.cs" />
     <Compile Include="Hooks.cs" />
+    <Compile Include="JSONUtility.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -133,6 +134,8 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    
+    <None Include="ResultsData\results.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="geckodriver.exe">
