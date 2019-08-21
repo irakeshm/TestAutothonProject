@@ -39,6 +39,7 @@ namespace SeleniumNUnitParallel
                 IWebElement searchbutton = Driver.FindElement(By.XPath("//*[@id='search-icon-legacy']"));
                 searchbutton.Click();
 
+                //Thread.Sleep(1000);
                 string abc = "(//*[@id='channel-title']/span[text()='STeP-IN Forum'])[1]";
                 Driver.FindElement(By.XPath(abc)).Click();
 
@@ -64,17 +65,21 @@ namespace SeleniumNUnitParallel
                     System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> AllVideos=Driver.FindElements(By.XPath(".//*[@id='video-title']"));
                     ScrollTo(0, AllVideos[AllVideos.Count - 1].Location.Y);
                 }
-
-
-
-
-
+                
                 //locate the video on screen  take screenshot
                 Screenshot ScreenShot = ((OpenQA.Selenium.ITakesScreenshot)Driver).GetScreenshot();
                 //Save the screenshot
-                String finalpath = @"C:\Users\ngarg1\source\repos\TestAutothonProject2\SeleniumNUnitParallel-master\SeleniumNUnitParallel\bin\Debug\" + "ScreenShot_" + DateTime.Now.ToString("ddMMhhmmss") + ".png";
+                String finalpath = System.IO.Path.GetTempPath() + "ScreenShot_" + DateTime.Now.ToString("ddMMhhmmss") + ".png";
                 ScreenShot.SaveAsFile(finalpath, ScreenshotImageFormat.Png);
+
+
                 //change the video quality to P360
+                Driver.FindElements(By.XPath(".//*[@id='video-title' and text()='" + videoName + "'] "))[0].Click();
+                Driver.FindElement(By.XPath(".//*[@id='movie_player']/div[21]/div[2]/div[2]/button[3] ")).Click();
+                Driver.FindElement(By.XPath(".//*[@id='ytp-id-18']/div/div/div[3]/div[2]/div/span")).Click();
+                Driver.FindElement(By.XPath(".//*[@id='ytp-id-49']//span[text()='360p']")).Click();
+
+
 
                 //Get  the name of all vidoes using Up next
                 IList<IWebElement> nextVideos = Driver.FindElements(By.Id("video-title"));
