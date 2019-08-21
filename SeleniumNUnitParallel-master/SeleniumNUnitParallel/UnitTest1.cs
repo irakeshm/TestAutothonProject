@@ -10,7 +10,7 @@ namespace SeleniumNUnitParallel
 {
     [TestFixture]
     [Parallelizable]
-    public class FirefoxTest: Hooks
+    public class FirefoxTest : Hooks
     {
         public FirefoxTest() : base(BrowserType.chrome)
         {
@@ -37,10 +37,10 @@ namespace SeleniumNUnitParallel
 
                 IWebElement searchbutton = Driver.FindElement(By.XPath("//*[@id='search-icon-legacy']"));
                 searchbutton.Click();
-                
+
                 string abc = "(//*[@id='channel-title']/span[text()='STeP-IN Forum'])[1]";
                 Driver.FindElement(By.XPath(abc)).Click();
-                
+
                 //click Video  tab on step in forum page
                 Driver.FindElement(By.XPath("//*[@id='tabsContent']/paper-tab[2]/div")).Click();
                 //get video name from API
@@ -48,8 +48,28 @@ namespace SeleniumNUnitParallel
                 //Search the video on page
                 string videoName = APICall.fetchAPIResult();
 
+                //To bring Video in Center
+                while (true)
+                {
+                    System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> Videos = Driver.FindElements(By.XPath(".//*[@id='video-title' and text()='" + videoName + "'] "));
+                    if (Videos.Count > 0)
+                    {
+                        if (Videos[0].Location.Y != Driver.Manage().Window.Position.Y + Driver.Manage().Window.Size.Height / 2)
+                        {
+                            ScrollTo(0, Videos[0].Location.Y - Driver.Manage().Window.Size.Height / 2); // Make sure element is in the view but below the top navigation pane
+                        }
+                        break;
+                    }                    
+                    System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> AllVideos=Driver.FindElements(By.XPath(".//*[@id='video-title']"));
+                    ScrollTo(0, AllVideos[AllVideos.Count - 1].Location.Y);
+                }
+
+
+
+
+
                 //locate the video on screen  take screenshot
-                Screenshot ScreenShot = ((ITakesScreenshot)Driver).GetScreenshot();
+                Screenshot ScreenShot = ((OpenQA.Selenium.ITakesScreenshot)Driver).GetScreenshot();
                 //Save the screenshot
                 String finalpath = @"C:\Users\ngarg1\source\repos\TestAutothonProject2\SeleniumNUnitParallel-master\SeleniumNUnitParallel\bin\Debug\" + "ScreenShot_" + DateTime.Now.ToString("ddMMhhmmss") + ".png";
                 ScreenShot.SaveAsFile(finalpath, ScreenshotImageFormat.Png);
@@ -63,15 +83,15 @@ namespace SeleniumNUnitParallel
                     if (ele.Displayed)
                         nextVideosDisplayed.Add(ele);
                 }
-              
+
                 IList<IWebElement> nextAllVideos = new List<IWebElement>();
-              
+
                 do
                 {
                     BrowserSearch.PerformPageLoad(Driver, nextVideosDisplayed);
                     //((OpenQA.Selenium.IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView();", nextVideosDisplayed[nextVideosDisplayed.Count - 1]);
                     //Thread.Sleep(10 * 1000);
-                    nextAllVideos=Driver.FindElements(By.Id("video-title"));
+                    nextAllVideos = Driver.FindElements(By.Id("video-title"));
                     foreach (IWebElement ele in nextAllVideos)
                     {
                         if (!ele.Displayed)
@@ -82,22 +102,27 @@ namespace SeleniumNUnitParallel
                 List<string> NextVideoNames = new List<string>();
                 foreach (IWebElement ele in nextVideosDisplayed)
                 {
-                    if(ele.Displayed)
+                    if (ele.Displayed)
                         NextVideoNames.Add(ele.GetAttribute("title"));
                 }
 
 
-              
+
 
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-            } 
-        } 
+            }
+        }
+        public void ScrollTo(int xPosition = 0, int yPosition = 0)
+        {
+            var js = String.Format("window.scrollTo({0}, {1})", xPosition, yPosition);
+            ((OpenQA.Selenium.IJavaScriptExecutor)Driver).ExecuteScript(js);
+        }
     }
 
-   
+
 
     [TestFixture]
     [Parallelizable]
@@ -106,20 +131,8 @@ namespace SeleniumNUnitParallel
         public ChromeTest() : base(BrowserType.chrome)
         {
         }
-                string videoName = APICall.fetchAPIResult();
 
-                while (true)
-                {
-                    System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> Videos = Driver.FindElements(By.XPath(".//*[@id='video-title' and text()='" + videoName + "'] "));
-                    if (Videos.Count > 0)
-                    {
-                        Videos[0].Click();
 
-                        break;
-                    }
-                    //scroll
-                }
-                
 
         [Test]
         public void ChromeGoogleTest()
@@ -136,7 +149,7 @@ namespace SeleniumNUnitParallel
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-            } 
+            }
         }
     }
 
