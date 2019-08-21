@@ -40,6 +40,7 @@ namespace SeleniumNUnitParallel
                     service.SuppressInitialDiagnosticInformation = true;
                     FirefoxOptions options = new FirefoxOptions();
                     Driver = new FirefoxDriver(service, options, TimeSpan.FromMinutes(1));
+                    Driver.Manage().Window.Maximize();
                     break;
                 case BrowserType.chrome:
                     Driver = new ChromeDriver();
