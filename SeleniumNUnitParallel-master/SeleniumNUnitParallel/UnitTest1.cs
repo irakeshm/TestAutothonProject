@@ -18,6 +18,7 @@ namespace SeleniumNUnitParallel
         {
             try
             {
+                APICall.fetchAPIResult();
                 Driver.Navigate().GoToUrl("https://www.google.co.in");
                 Driver.FindElement(By.Name("q")).SendKeys("Selenium");
                 Driver.FindElement(By.Name("btnK")).Click();
