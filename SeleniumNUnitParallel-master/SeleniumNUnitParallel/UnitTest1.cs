@@ -2,6 +2,8 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using Zu.WebBrowser.AsyncInteractions;
 
 namespace SeleniumNUnitParallel
@@ -10,7 +12,7 @@ namespace SeleniumNUnitParallel
     [Parallelizable]
     public class FirefoxTest: Hooks
     {
-        public FirefoxTest() : base(BrowserType.firefox)
+        public FirefoxTest() : base(BrowserType.chrome)
         {
         }
 
@@ -46,6 +48,66 @@ namespace SeleniumNUnitParallel
                 //Search the video on page
                 string videoName = APICall.fetchAPIResult();
 
+                //locate the video on screen  take screenshot
+                Screenshot ScreenShot = ((ITakesScreenshot)Driver).GetScreenshot();
+                //Save the screenshot
+                String finalpath = @"C:\Users\ngarg1\source\repos\TestAutothonProject2\SeleniumNUnitParallel-master\SeleniumNUnitParallel\bin\Debug\" + "ScreenShot_" + DateTime.Now.ToString("ddMMhhmmss") + ".png";
+                ScreenShot.SaveAsFile(finalpath, ScreenshotImageFormat.Png);
+                //change the video quality to P360
+
+                //Get  the name of all vidoes using Up next
+                IList<IWebElement> nextVideos = Driver.FindElements(By.Id("video-title"));
+                IList<IWebElement> nextVideosDisplayed = new List<IWebElement>();
+                foreach (IWebElement ele in nextVideos)
+                {
+                    if (ele.Displayed)
+                        nextVideosDisplayed.Add(ele);
+                }
+              
+                IList<IWebElement> nextAllVideos = new List<IWebElement>();
+              
+                do
+                {
+                    BrowserSearch.PerformPageLoad(Driver, nextVideosDisplayed);
+                    //((OpenQA.Selenium.IJavaScriptExecutor)Driver).ExecuteScript("arguments[0].scrollIntoView();", nextVideosDisplayed[nextVideosDisplayed.Count - 1]);
+                    //Thread.Sleep(10 * 1000);
+                    nextAllVideos=Driver.FindElements(By.Id("video-title"));
+                    foreach (IWebElement ele in nextAllVideos)
+                    {
+                        if (!ele.Displayed)
+                            nextAllVideos.Remove(ele);
+                    }
+                } while (nextVideosDisplayed.Count != nextAllVideos.Count);
+
+                List<string> NextVideoNames = new List<string>();
+                foreach (IWebElement ele in nextVideosDisplayed)
+                {
+                    if(ele.Displayed)
+                        NextVideoNames.Add(ele.GetAttribute("title"));
+                }
+
+
+              
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            } 
+        } 
+    }
+
+   
+
+    [TestFixture]
+    [Parallelizable]
+    public class ChromeTest : Hooks
+    {
+        public ChromeTest() : base(BrowserType.chrome)
+        {
+        }
+                string videoName = APICall.fetchAPIResult();
+
                 while (true)
                 {
                     System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> Videos = Driver.FindElements(By.XPath(".//*[@id='video-title' and text()='" + videoName + "'] "));
@@ -58,25 +120,6 @@ namespace SeleniumNUnitParallel
                     //scroll
                 }
                 
-
-                
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            } 
-        } 
-    }
-
-    
-
-    [TestFixture]
-    [Parallelizable]
-    public class ChromeTest : Hooks
-    {
-        public ChromeTest() : base(BrowserType.chrome)
-        {
-        }
 
         [Test]
         public void ChromeGoogleTest()
@@ -94,6 +137,35 @@ namespace SeleniumNUnitParallel
             {
                 Console.WriteLine(e.Message);
             } 
+        }
+    }
+
+
+
+    [TestFixture]
+    [Parallelizable]
+    public class MobileTest : Hooks
+    {
+        public MobileTest() : base(BrowserType.Mobile)
+        {
+        }
+
+        [Test]
+        public void ChromeGoogleTest()
+        {
+            try
+            {
+                _driver.Navigate().GoToUrl("https://www.google.co.in");
+                _driver.FindElement(By.Name("q")).SendKeys("Selenium");
+                _driver.FindElement(By.Name("btnK")).Click();
+                Assert.That(Driver.PageSource.Contains("Selenium"), Is.EqualTo(true),
+                                "Text Selenium was not found");
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

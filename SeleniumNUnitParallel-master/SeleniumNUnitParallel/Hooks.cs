@@ -1,8 +1,10 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using System;
 using System.Reflection;
+using OpenQA.Selenium.Appium.Android;
 
 namespace SeleniumNUnitParallel
 {
@@ -45,14 +47,27 @@ namespace SeleniumNUnitParallel
                 case BrowserType.chrome:
                     Driver = new ChromeDriver();
                     break;
+
+                case BrowserType.Mobile:
+                    AppiumOptions appiumoptions = new AppiumOptions();
+                    appiumoptions.AddAdditionalCapability("browserName", "chrome");
+                    appiumoptions.AddAdditionalCapability("platformName", "Android");
+                    appiumoptions.AddAdditionalCapability("platformVersion", "7.0");
+                    appiumoptions.AddAdditionalCapability("deviceName", "ZY2243FCHG");
+                    _driver = new AndroidDriver<AndroidElement>(new Uri("http://127.0.0.1:4723/wd/hub"), appiumoptions);
+                    break;
+
+
                 default:
                     break;
             }
         }
     }
+
     public enum BrowserType
     {
         firefox,
-        chrome
+        chrome,
+        Mobile
     }
 }
