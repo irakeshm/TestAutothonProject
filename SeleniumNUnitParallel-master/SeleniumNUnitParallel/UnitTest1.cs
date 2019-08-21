@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium.Android;
+using OpenQA.Selenium.Appium.Interfaces;
 using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
@@ -157,10 +158,40 @@ namespace SeleniumNUnitParallel
             try
             {
                 _driver.Navigate().GoToUrl("https://www.youtube.com");
-                 System.Threading.Thread.Sleep(3000);
-                IWebElement el = _driver.FindElement(By.XPath("//*[@id='search-icon-legacy']/preceding-sibling::*"));
-                el.Click();
-            _driver.FindElementByAccessibilityId("Search").Click();
+                System.Threading.Thread.Sleep(3000);
+                _driver.FindElement(By.XPath("//body/ytm-app[@id='app']/ytm-mobile-topbar-renderer[@id='header-bar']/header[@class='mobile-topbar-header cbox']/div[@class='mobile-topbar-header-content non-search-mode cbox']/button[1] ")).Click();
+                _driver.FindElement(By.XPath("//input[@placeholder='Search YouTube']")).SendKeys("step-inforum");
+                _driver.FindElement(By.XPath("//ytm-searchbox[@class='mobile-topbar-header-content search-mode']//button[2]")).Click();
+
+
+                _driver.FindElement(By.XPath("//ytm-compact-channel-renderer[@class='item']//a[@class='compact-media-item-metadata-content']")).Click();
+                _driver.FindElement(By.XPath("//a[contains(text(),'Videos')]")).Click();
+
+                //a[contains(text(),'Videos')]
+                string videoName = APICall.fetchAPIResult();
+
+               // _driver.FindElement(By.XPath("//div[@class='page-container']//ytm-browse//ytm-single-column-browse-results-renderer//div//div//h4[@class='compact-media-item-headline'][contains(text(),'"+videoName+"')]")).Click();
+
+
+                //locate the video on screen  take screenshot
+                // Screenshot ScreenShot = ((OpenQA.Selenium.ITakesScreenshot)Driver).GetScreenshot();
+                //Save the screenshot
+                // String finalpath = @"C:\Users\ngarg1\source\repos\TestAutothonProject2\SeleniumNUnitParallel-master\SeleniumNUnitParallel\bin\Debug\" + "ScreenShot_" + DateTime.Now.ToString("ddMMhhmmss") + ".png";
+                //ScreenShot.SaveAsFile(finalpath, ScreenshotImageFormat.Png);
+                //change the video quality to P360
+
+                //Get  the name of all vidoes using Up next
+                IList <IWebElement> nextVideos = Driver.FindElements(By.Id("video-title"));
+                IList<IWebElement> nextVideosDisplayed = new List<IWebElement>();
+                foreach (IWebElement ele in nextVideos)
+                {
+                    if (ele.Displayed)
+                        nextVideosDisplayed.Add(ele);
+                }
+
+                // ele.Click();
+
+                //_driver.FindElementByAccessibilityId("Search").Click();
                 //ele.Click();
                 //_driver.FindElement(By.Name("btnK")).Click();
                 //Assert.That(Driver.PageSource.Contains("Selenium"), Is.EqualTo(true),
