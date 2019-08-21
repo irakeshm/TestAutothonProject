@@ -34,6 +34,12 @@ namespace SeleniumNUnitParallel
                 //Driver.FindElement(By.Name("btnK")).Click();
                 //Assert.That(Driver.PageSource.Contains("Selenium"), Is.EqualTo(true),
                 //                "Text Selenium was not found");
+                APICall.fetchAPIResult();
+                Driver.Navigate().GoToUrl("https://www.google.co.in");
+                Driver.FindElement(By.Name("q")).SendKeys("Selenium");
+                Driver.FindElement(By.Name("btnK")).Click();
+                Assert.That(Driver.PageSource.Contains("Selenium"), Is.EqualTo(true),
+                                "Text Selenium was not found");
 
             }
             catch (Exception e)
