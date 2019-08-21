@@ -50,7 +50,7 @@ namespace SeleniumNUnitParallel
                 string videoName = APICall.fetchAPIResult();
 
                 //locate the video on screen  take screenshot
-                Screenshot ScreenShot = ((ITakesScreenshot)Driver).GetScreenshot();
+                Screenshot ScreenShot = ((OpenQA.Selenium.ITakesScreenshot)Driver).GetScreenshot();
                 //Save the screenshot
                 String finalpath = @"C:\Users\ngarg1\source\repos\TestAutothonProject2\SeleniumNUnitParallel-master\SeleniumNUnitParallel\bin\Debug\" + "ScreenShot_" + DateTime.Now.ToString("ddMMhhmmss") + ".png";
                 ScreenShot.SaveAsFile(finalpath, ScreenshotImageFormat.Png);
@@ -107,19 +107,19 @@ namespace SeleniumNUnitParallel
         public ChromeTest() : base(BrowserType.chrome)
         {
         }
-                string videoName = APICall.fetchAPIResult();
+                //string videoName = APICall.fetchAPIResult();
 
-                while (true)
-                {
-                    System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> Videos = Driver.FindElements(By.XPath(".//*[@id='video-title' and text()='" + videoName + "'] "));
-                    if (Videos.Count > 0)
-                    {
-                        Videos[0].Click();
+                //while (true)
+                //{
+                //    System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> Videos = Driver.FindElements(By.XPath(".//*[@id='video-title' and text()='" + videoName + "'] "));
+                //    if (Videos.Count > 0)
+                //    {
+                //        Videos[0].Click();
 
-                        break;
-                    }
-                    //scroll
-                }
+                //        break;
+                //    }
+                //    //scroll
+                //}
                 
 
         [Test]
