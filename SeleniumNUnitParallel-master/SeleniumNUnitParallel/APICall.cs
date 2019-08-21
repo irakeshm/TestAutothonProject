@@ -24,7 +24,7 @@ namespace SeleniumNUnitParallel
         /// <returns></returns>
         public static string RunQuery(string url, string resource = null, string argument = null, string data = null, string method = "GET")
         {
-          
+
             try
             {
                 HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
@@ -58,7 +58,6 @@ namespace SeleniumNUnitParallel
 
                 throw;
             }
-
         }
 
         public static string fetchAPIResult()
@@ -66,8 +65,7 @@ namespace SeleniumNUnitParallel
 
             result = RunQuery("http://54.169.34.162:5252/video", method: "GET");
             return result;
-            
-            //return JsonConvert.DeserializeObject<List<RootObject>>(result);
+
         }
 
         private static string GetEncodedCredentials()
