@@ -110,12 +110,14 @@
   <ItemGroup>
     <Compile Include="Base.cs" />
     <Compile Include="Hooks.cs" />
+    <Compile Include="JSONUtility.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="ResultsData\results.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="geckodriver.exe" />
