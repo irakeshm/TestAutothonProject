@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace SeleniumNUnitParallel
 {
+    enum variablename
+    {
+        team,
+        video,
+        upcomingvideo
+    }
     public class VideoResult
     {
         public string team { get; set; }
@@ -26,6 +32,8 @@ namespace SeleniumNUnitParallel
             };
             File.WriteAllText(@"..\\..\\ResultsData\result.json", JsonConvert.SerializeObject(data));
         }
+
+
 
          
         
